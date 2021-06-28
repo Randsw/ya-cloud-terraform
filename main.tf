@@ -27,21 +27,22 @@ resource "yandex_compute_instance" "yandex-terraform-test" {
   zone        = "ru-central1-a"
 
   resources {
-    cores  = 1
+    cores  = 2
     memory = 2
-    core_fraction = 50
+    core_fraction = 20
   }
 
   boot_disk {
     initialize_params {
       image_id = "fd83klic6c8gfgi40urb"
       size = 20
-      type = "HDD"
+      type = "network-hdd"
     }
   }
 
   network_interface {
     subnet_id = "${yandex_vpc_subnet.ya-subnet.id}"
+    nat = true
   }
 
   metadata = {
@@ -54,6 +55,7 @@ resource "yandex_vpc_network" "test-net" {
 }
 
 resource "yandex_vpc_subnet" "ya-subnet" {
+  name = "ya-subnet-1"
   v4_cidr_blocks = ["10.2.0.0/16"]
   zone       = "ru-central1-a"
   network_id = "${yandex_vpc_network.test-net.id}"
