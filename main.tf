@@ -61,6 +61,22 @@ resource "yandex_vpc_subnet" "ya-subnet" {
   network_id = "${yandex_vpc_network.test-net.id}"
 }
 
+resource "yandex_dns_zone" "tls-test" {
+  name    = "TLS_cert_zone"
+  zone    = "rand-tls-test.ga."
+  public  = true
+}
+
+resource "yandex_dns_recordset" "rs1" {
+  zone_id = "${yandex_dns_zone.tls-test.id}"
+  name    = "rand-tls-test.ga."
+  type    = "A"
+  ttl     = 200
+  data    = ["${yandex_compute_instance.yandex-terraform-test.network_interface.0.nat_ip_address}"]
+}
+
+
+
 output "internal_ip_address_yandex-terraform-test" {
   value = yandex_compute_instance.yandex-terraform-test.network_interface.0.ip_address
 }

@@ -1,0 +1,5 @@
+service_name: "tls_example" 
+service_admin_email: "randsw@yandex.ru"
+service_host: ""
+service_root_directory: "/opt"
+letsencrypt_ssl_dir: "/etc/letsencrypt/live"
