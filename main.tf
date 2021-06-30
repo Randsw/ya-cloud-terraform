@@ -60,7 +60,7 @@ resource "yandex_compute_instance" "yandex-terraform-test" {
   }
 
    provisioner "local-exec" {
-     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.network_interface.0.nat_ip_address},' --private-key ${file("~/ya_rsa")} -e 'pub_key=${var.pub_key}' ansible/nginx-deploy.yml"
+     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.network_interface.0.nat_ip_address},' --private-key ${file("~/ya_rsa")} -e 'pub_key=${file("~/ya_rsa.pub")}' ansible/nginx-deploy.yml"
    }
 
 }
