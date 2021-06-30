@@ -48,6 +48,21 @@ resource "yandex_compute_instance" "yandex-terraform-test" {
   metadata = {
     ssh-keys = "ubuntu:${file("~/ya_rsa.pub")}"
   }
+
+  connection {
+      host        = "${self.network_interface.0.nat_ip_address}"
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = "${file("~/ya_rsa")}"
+    }
+  provisioner "remote-exec" {
+    inline = ["sudo apt update", "sudo apt install python3 -y", "echo Done!"]
+  }
+
+   provisioner "local-exec" {
+     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.network_interface.0.nat_ip_address},' --private-key ${file("~/ya_rsa")} -e 'pub_key=${var.pub_key}' ansible/nginx-deploy.yml"
+   }
+
 }
 
 resource "yandex_vpc_network" "test-net" {

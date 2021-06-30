@@ -1,4 +1,4 @@
-- hosts: website
+- hosts: yandex-terraform-test
   become: yes
   gather_facts: yes
 
