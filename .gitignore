@@ -1,5 +1,5 @@
 secret.yaml
-.terraform
+.terraform*
 .terraform.lock.hcl
 .git
 terraform.tfstate*

@@ -61,14 +61,14 @@ resource "yandex_vpc_subnet" "ya-subnet" {
   network_id = "${yandex_vpc_network.test-net.id}"
 }
 
-resource "yandex_dns_zone" "tls-test" {
-  name    = "TLS_cert_zone"
+resource "yandex_dns_zone" "tlstest" {
+  name    = "tls-cert-zone"
   zone    = "rand-tls-test.ga."
   public  = true
 }
 
 resource "yandex_dns_recordset" "rs1" {
-  zone_id = "${yandex_dns_zone.tls-test.id}"
+  zone_id = "${yandex_dns_zone.tlstest.id}"
   name    = "rand-tls-test.ga."
   type    = "A"
   ttl     = 200
