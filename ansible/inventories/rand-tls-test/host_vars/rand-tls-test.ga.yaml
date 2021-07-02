@@ -1,0 +1,19 @@
+---
+ansible_host: 217.28.228.255
+ansible_user: ubuntu
+ansible_ssh_private_key_file: "~/ya_rsa"
+
+certbot_packages:
+    - certbot
+    - python3-certbot-nginx
+    - python3-pip
+    - ca-certificates
+
+nginx_package_name: "nginx"
+nginx_default_release: ""
+
+service_name: "tls_example" 
+service_admin_email: ""
+service_host: "rand-tls-test.ga"
+service_root_directory: "/opt"
+letsencrypt_ssl_dir: "/etc/letsencrypt/live"

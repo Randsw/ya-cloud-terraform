@@ -1,4 +1,10 @@
 ---
+- name: Create dir for site
+  file:
+    path: "{{ service_root_directory }}/{{ service_name }}"
+    state: directory
+    mode: '0755'
+
 - name: Add index.html 
   template: 
     src: index.html.j2 
@@ -14,6 +20,7 @@
     owner: www-data 
     group: www-data 
     mode: 0644
+  register: nginx_http_config_changed
 
 - name: Add http nginx symlink
   file: 
@@ -27,11 +34,16 @@
   service: 
     name: nginx 
     state: reloaded
+  when: nginx_http_config_changed.changed
+
+- name: Check if certificate already exists.
+  stat:
+    path: /etc/letsencrypt/live/{{ service_host }}/cert.pem
+  register: letsencrypt_cert
     
 - name: Create certificate
-  shell: ./certbot-auto certonly --webroot --email {{ service_admin_email }} --agree-tos --webroot-path=/usr/share/nginx/html -d {{ service_host }};
-  args:
-    chdir: /opt/certbot
+  command: certbot certonly --webroot --webroot-path=/usr/share/nginx/html --agree-tos -d {{ service_host }} -m {{ service_admin_email}}
+  when: not letsencrypt_cert.stat.exists
 
 - name: Add https nginx configuration
   template: 
@@ -40,6 +52,7 @@
     owner: www-data 
     group: www-data 
     mode: 0644
+  register: nginx_https_config_changed
     
 - name: Add external https nginx symlink
   file: 
@@ -53,3 +66,4 @@
   service: 
     name: nginx 
     state: reloaded
+  when: nginx_https_config_changed.changed

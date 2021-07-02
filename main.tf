@@ -59,9 +59,9 @@ resource "yandex_compute_instance" "yandex-terraform-test" {
     inline = ["sudo apt update", "sudo apt install python3 -y", "echo Done!"]
   }
 
-   provisioner "local-exec" {
-     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u root -i '${self.network_interface.0.nat_ip_address},' --private-key ${file("~/ya_rsa")} -e 'pub_key=${file("~/ya_rsa.pub")}' ansible/nginx-deploy.yml"
-   }
+#    provisioner "local-exec" {
+#      command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.network_interface.0.nat_ip_address}' --private-key ~/ya_rsa -e 'pub_key=${file("~/ya_rsa.pub")}' ansible/nginx-deploy.yml"
+#    }
 
 }
 

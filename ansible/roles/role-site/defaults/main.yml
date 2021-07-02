@@ -3,3 +3,4 @@ service_admin_email: "randsw@yandex.ru"
 service_host: "rand-tls-test.ga"
 service_root_directory: "/opt"
 letsencrypt_ssl_dir: "/etc/letsencrypt/live"
+

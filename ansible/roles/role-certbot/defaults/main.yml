@@ -1,15 +1,5 @@
 certbot_packages:
-    - python
-    - python-dev
-    - gcc
-    - dialog
-    - libaugeas0
-    - augeas-lenses
-    - libssl-dev
-    - libffi-dev
+    - certbot
+    - python3-certbot-nginx
+    - python3-pip
     - ca-certificates
-    - python-pip
-    - python-virtualenv
-    - git
-    - libpython-dev
-    - zlib1g-dev  
