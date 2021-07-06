@@ -83,13 +83,11 @@ resource "yandex_compute_instance" "yandex-terraform-test" {
   provisioner "remote-exec" {
     inline = ["sudo apt update", "sudo apt install python3 -y", "echo Done!"]
    }
-
-
 }
 
 resource "null_resource" "ansible_provision" {
    provisioner "local-exec" {
-     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${self.network_interface.0.nat_ip_address},' --private-key ${var.ssh_key_private} ansible/nginx-deploy.yml"
+     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu -i '${yandex_compute_instance.yandex-terraform-test.network_interface.0.nat_ip_address},' --private-key ${var.ssh_key_private} ansible/nginx-deploy.yml"
    }
 }
 
